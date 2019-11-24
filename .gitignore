@@ -1,0 +1,7 @@
+*.pro
+*.snap
+parts/
+prime/
+stage/
+*-snap_i386*.txt
+organizerdb.sqlite
