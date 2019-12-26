@@ -38,10 +38,9 @@ apps:
 
 parts:
   lxqt-organizer-snap:
-    #source: https://github.com/lxqt/lxqt-organizer.git
-    source: https://github.com/ito32bit/lxqt-organizer-snap.git
+    source: https://github.com/lxqt/lxqt-organizer.git
     source-type: git
-    source-branch: develop-snap
+    source-branch: master
     plugin: cmake
     configflags:
       - -DCMAKE_INSTALL_PREFIX=/usr
