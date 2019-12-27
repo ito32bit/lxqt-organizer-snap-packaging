@@ -10,12 +10,6 @@ description: |
 grade: stable
 confinement: strict
 
-plugs:
-  liblxqt-snap:
-    interface: content
-    target: $SNAP/liblxqt-snap
-    default-provider: liblxqt-snap
-
 adopt-info: lxqt-organizer-snap
 apps:
   lxqt-organizer-snap:
@@ -25,7 +19,7 @@ apps:
       - bin/desktop-launch
     environment:
       QT_STYLE_OVERRIDE: Fusion
-      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/liblxqt-snap/lib:$SNAP/liblxqt-snap/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/lib:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
     desktop: usr/share/applications/lxqt-organizer.desktop
     plugs:
       - unity7
@@ -59,9 +53,8 @@ parts:
       snapcraftctl set-version $ver
 #
     build-snaps:
-      - lxqt-build-tools-snap
-      - liblxqt-snap
-      - libqtxdg-snap
+      - lxqt-build-tools-snap/latest/edge
+      - libqtxdg-snap/latest/edge
     build-packages:
       - g++
       - libqt5core5a
@@ -80,6 +73,8 @@ parts:
       snapcraftctl stage
       sed -e '/^Name/s/$/ - snap/' -i usr/share/applications/lxqt-organizer.desktop
 #
+    stage-snaps:
+      - liblxqt-snap/latest/edge
     stage-packages:
       - libqt5core5a
       - libqt5dbus5
