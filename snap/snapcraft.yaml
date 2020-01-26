@@ -14,13 +14,13 @@ adopt-info: lxqt-organizer-snap
 apps:
   lxqt-organizer-snap:
     adapter: full
-    command: usr/bin/lxqt-organizer
+    command: usr/bin/organizer
     command-chain:
       - bin/desktop-launch
     environment:
       QT_STYLE_OVERRIDE: Fusion
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/lib:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
-    desktop: usr/share/applications/lxqt-organizer.desktop
+    desktop: usr/share/applications/organizer.desktop
     plugs:
       - unity7
       - x11
@@ -71,7 +71,7 @@ parts:
 
     override-stage: |
       snapcraftctl stage
-      sed -e '/^Name/s/$/ - snap/' -i usr/share/applications/lxqt-organizer.desktop
+      sed -e '/^Name/s/$/ - snap/' -i usr/share/applications/*.desktop
 #
     stage-snaps:
       - liblxqt-snap/latest/edge
