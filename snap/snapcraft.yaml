@@ -37,9 +37,13 @@ parts:
     source-branch: master
     plugin: cmake
     configflags:
-      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_FIND_ROOT_PATH=$SNAPCRAFT_STAGE
+      - -DCMAKE_INSTALL_PREFIX=/snap/$SNAPCRAFT_PROJECT_NAME/current/usr
+    organize:
+      snap/$SNAPCRAFT_PROJECT_NAME/current/usr: usr
     after:
       - desktop-qt5
+      - liblxqt
     override-pull: |
       snapcraftctl pull
       c1=`git log --oneline -n 1`
@@ -54,7 +58,6 @@ parts:
 #
     build-snaps:
       - lxqt-build-tools-snap/latest/edge
-      - libqtxdg-snap/latest/edge
     build-packages:
       - g++
       - libqt5core5a
@@ -73,8 +76,6 @@ parts:
       snapcraftctl stage
       sed -e '/^Name/s/$/ - snap/' -i usr/share/applications/*.desktop
 #
-    stage-snaps:
-      - liblxqt-snap/latest/edge
     stage-packages:
       - libqt5core5a
       - libqt5dbus5
@@ -109,3 +110,99 @@ parts:
         - libqt5svg5 # for loading icon themes which are svg
         - try: [appmenu-qt5] # not available on core18
         - locales-all
+
+  liblxqt:
+    source: https://github.com/lxqt/liblxqt.git
+    source-type: git
+    plugin: cmake
+    configflags:
+      - -DCMAKE_FIND_ROOT_PATH=$SNAPCRAFT_STAGE
+      - -DCMAKE_INSTALL_PREFIX=/snap/$SNAPCRAFT_PROJECT_NAME/current/usr
+    organize:
+      snap/$SNAPCRAFT_PROJECT_NAME/current/usr: usr
+
+    after:
+      - libqtxdg
+    build-snaps:
+      - lxqt-build-tools-snap/latest/edge
+    build-packages:
+      - g++
+      - libqt5widgets5
+      - libqt5dbus5
+      - qttools5-dev
+      - libkf5windowsystem-dev
+      - libpolkit-qt5-1-dev
+      - libqt5x11extras5-dev
+      - libx11-dev
+      - libxss-dev
+      - libqt5svg5-dev
+      - libqt5xdgiconloader-dev
+      - libglib2.0-dev
+    stage-packages:
+      - qttranslations5-l10n
+      - libqt5xdg-dev
+      - libqt5xdgiconloader-dev
+      - desktop-file-utils
+      - shared-mime-info
+      - libkf5windowsystem5
+      - libqt5core5a
+      - libqt5dbus5
+      - libqt5gui5
+      - libqt5widgets5
+      - libqt5x11extras5
+      - libqt5xdg3
+      - libstdc++6
+      - libx11-6
+      - libxss1
+    stage:
+      - -usr/include/qt5xdg/xdgaction.h
+      - -usr/include/qt5xdg/xdgautostart.h
+      - -usr/include/qt5xdg/xdgdesktopfile.h
+      - -usr/include/qt5xdg/xdgdirs.h
+      - -usr/include/qt5xdg/xdgicon.h
+      - -usr/include/qt5xdg/xdgmacros.h
+      - -usr/include/qt5xdg/xdgmenu.h
+      - -usr/include/qt5xdg/xdgmenuwidget.h
+      - -usr/include/qt5xdg/xdgmimetype.h
+      - -usr/include/qt5xdg/xmlhelper.h
+      - -usr/lib/i386-linux-gnu/qt5/plugins/iconengines/libQt5XdgIconPlugin.so
+      - -usr/share/cmake/qt5xdg/qt5xdg-config-version.cmake
+      - -usr/share/cmake/qt5xdg/qt5xdg-config.cmake
+      - -usr/share/cmake/qt5xdg/qt5xdg-targets.cmake
+      - -usr/share/cmake/qt5xdgiconloader/qt5xdgiconloader-config-version.cmake
+      - -usr/share/cmake/qt5xdgiconloader/qt5xdgiconloader-targets.cmake
+
+  libqtxdg:
+    source: https://github.com/lxqt/libqtxdg.git
+    source-type: git
+    plugin: cmake
+    configflags:
+      - -DCMAKE_FIND_ROOT_PATH=$SNAPCRAFT_STAGE
+      - -DCMAKE_INSTALL_PREFIX=/snap/$SNAPCRAFT_PROJECT_NAME/current/usr
+    organize:
+      snap/$SNAPCRAFT_PROJECT_NAME/current/usr: usr
+
+    build-snaps:
+      - lxqt-build-tools-snap/latest/edge
+    build-packages:
+      - g++
+      - libmagic-dev
+      - libqt5svg5-dev
+      - pkg-config
+      - qtbase5-private-dev
+      - qttools5-dev
+      - qttools5-dev-tools
+    stage-packages:
+      - libfile-mimeinfo-perl
+      - shared-mime-info
+      - file
+      - libglib2.0-bin
+      - libqt5core5a
+      - libqt5dbus5
+      - libqt5gui5
+      - libqt5widgets5
+      - libqt5xml5
+      - libstdc++6
+      - try: [gtk-update-icon-cache]
+      - libmagic1
+      - qttranslations5-l10n
