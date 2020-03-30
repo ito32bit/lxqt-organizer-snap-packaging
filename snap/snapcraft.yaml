@@ -71,6 +71,7 @@ parts:
       - qttools5-dev
       - qttools5-dev-tools
       - libqt5sql5
+      - qtmultimedia5-dev
 
     override-stage: |
       snapcraftctl stage
@@ -85,6 +86,7 @@ parts:
       - libqt5x11extras5
       - libx11-6
       - libqt5sql5-sqlite
+      - libqt5multimediawidgets5
       #- qttranslations5-l10n
       - fcitx-frontend-qt5
 
